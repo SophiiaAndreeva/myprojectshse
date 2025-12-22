@@ -167,12 +167,18 @@ def main():
         return
 
     host = os.environ.get("HOST", "127.0.0.1")
-    port = int(os.environ.get("PORT", "8080"))
+    port = int(os.environ.get("PORT", "8081"))
     httpd = HTTPServer((host, port), Handler)
     httpd.token = token
 
     print(f"Open: http://{host}:{port}")
-    httpd.serve_forever()
+
+    try:
+        httpd.serve_forever()
+    except KeyboardInterrupt:
+        httpd.server_close()
+        print("Сервер выключен")
+
 
 if __name__ == "__main__":
     main()
